@@ -1,0 +1,286 @@
+    1  exit
+    2  sudo podman ps --format="{{.ID}} {{.Names}} {{.Ports}}"
+    3  mysql -uuser1 -h 127.0.0.1 -pmypa55 -P13306 items < /home/student/DO180/labs/manage-networking/db.sql 
+    4  sudo podman exec -it mysqldb-port /opt/rh/rh-mysql57/root/usr/bin/mysql -uroot items -e "SELECT * FROM Item"
+    5  mysql -uuser1 -h 127.0.0.1 -pmypa55 -P13306 items -e "SELECT * FROM Item"
+    6  sudo podman exec -it mysqldb-port /bin/bash
+    7  lab manage-networking finish
+    8  lab-configure 
+    9  source /usr/local/etc/ocp4.config
+   10  git clone https://github.com/Faisalmg/DO180-apps
+   11  cd ~/DO180-apps/
+   12  git status
+   13  head README.md 
+   14  cd
+   15  sudo podman search rhel
+   16  sudo podmanpull rhel
+   17  sudo podman pull rhel
+   18  sudo podman images
+   19  sudo podman run ubi7/ubi:7.7 echo "Hi there"
+   20  sudo podman images
+   21  sudo podman -d rhscl/httpd-24-rhel7:latest
+   22  sudo podman run -d rhscl/httpd-24-rhel7:latest
+   23  sudo podman inspect -l
+   24  curl http://10.88.0.3:8080
+   25  sudo podman run -it ubi7/ubi:7.7 /bin/bash
+   26  sudo podman run --name my-mysql -e MYSQL_USER=admin -e MYSQL_PASSWORD=redhat -d rhmap47/mysql:5.5
+   27  sudo podman ps -a
+   28  lab container-create start
+   29  sudo podman run --name mysql-basic -e MYSQL_USER=user1 -e MYSQL_PASSWORD=mypa55 -e MYSQL_DATABASE=items -e MYSQL_ROOT_PASSWORD=r00tpa55 -d rhscl/mysql-57-rhel7:5.7-3.14
+   30  sudo podman ps --format "{{.ID}} {{.Image}} {{.Names}}"
+   31  sudo podman exec -it mysql-basic /bin/bash
+   32  sudo podman ps 
+   33  sudo podman ps -a
+   34  sudo podman ps
+   35  sudo podman ps -a
+   36  sudo podman top
+   37  sudo podman top d1
+   38  sudo podman top 10
+   39  sudo podman stat
+   40  sudo podman inspect 
+   41  sudo podman inspect d1
+   42  sudo podman inspect d1 | grep -B5 -A5 "10."
+   43  sudo podman inspect d1 | grep -B5 -A5 "10.88"
+   44  sudo podman ps -a
+   45  sudo podman restart F8
+   46  sudo podman restart f8
+   47  sudo podman exec -it f8 bash
+   48  sudo podman ps -a
+   49  sudo podman rm keen_williamson
+   50  sudo podman stop keen_williamson
+   51  sudo podman rm keen_williamson
+   52  sudo podman ps -a
+   53  sudo podman stop -a
+   54  sudo podman rm -a
+   55  sudo podman ps -a
+   56  sudo podman run --name mysql-db rhscl/mysql-57-rhel7
+   57  sudo podman logs mysql-db
+   58  sudo podman run --name mysql -d -e MYSQL_USER=user1 -e MYSQL_PASSWORD=mypa55 -e MYSQL_DATABASE=items -e MYSQL_ROOT_PASSWORD=r00tpa55 rhscl/mysql-57-rhel7
+   59  sudo podman ps --format="{{.ID}} {{.Names}} {{.Status}}"
+   60  sudo podman ps -a --format="{{.ID}} {{.Names}} {{.Status}}"
+   61  sudo podman inspect -f '{{ .NetworkSettings.IPAddress }}' mysql
+   62  mysql -uuser1 -h 10.88.0.6 -pmypa55 items < /home/student/DO180/labs/manage-lifecycle/db.sql
+   63  git clone https://github.com/Faisalmg/DO180-apps
+   64  locate db.sql
+   65  sudo locate db.sql
+   66  find -name db.sql /
+   67  find / -name db.sql
+   68  sudo find / -name db.sql
+   69  git clone https://github.com/Faisalmg/DO180-
+   70  ll
+   71  cd DO180
+   72  ll
+   73  cd ..
+   74  cd DO180-apps/
+   75  ll
+   76  git status
+   77  lab manage-lifecycle start
+   78  mysql -uuser1 -h 10.88.0.6 -pmypa55 items < /home/student/DO180/labs/manage-lifecycle/db.sql 
+   79  sudo podman inspect -f '{{ .NetworkSettings.IPAddress }}' mysql
+   80  mysql -uuser1 -h 10.88.0.8 -pmypa55 items < /home/student/DO180/labs/manage-lifecycle/db.sql 
+   81  sudo podman run --name mysql-2 -it rhscl/mysql-57-rhel7 /bin/bash
+   82  sudo podman ps -a --format="{{.ID}} {{.Names}} {{.Status}}"
+   83  sudo podman exec mysql /bin/bash -c 'mysql -uuser1 -pmypa55 -e "select * from items.Projects;"'
+   84  lab manage-lifecycle finish
+   85  cd ~
+   86  sudo mkdir -pv /var/local/mysql
+   87  sudo semanage fcontext -a -t container_file_t '/var/local/mysql(/.*)?'
+   88  sudo restorecon -R /var/local/mysql
+   89  ls -ldZ /var/local/mysql
+   90  sudo chown -Rv 27:27 /var/local/mysql
+   91  sudo podman pull rhscl/mysql-57-rhel7
+   92  sudo podman run --name persist-db -d -v /var/local/mysql:/var/lib/mysql/data -e MYSQL_USER=user1 -e MYSQL_PASSWORD=mypa55 -e MYSQL_DATABASE=items -e MYSQL_ROOT_PASSWORD=r00tpa55 rhscl/mysql-57-rhel7
+   93  sudo podman ps --format="{{.ID}} {{.Names}} {{.Status}}"
+   94  ls -ld /var/local/mysql/items
+   95  lab manage-storage finish 
+   96  lab manage-networking start
+   97  sudo podman run --name mysqldb-port -d -v /var/local/mysql:/var/lib/mysql/data -p 13306:3306 -e MYSQL_USER=user1 -e MYSQL_PASSWORD=mypa55 -e MYSQL_DATABASE=items -e MYSQL_ROOT_PASSWORD=r00tpa55 rhscl/mysql-57-rhel7
+   98  mysql -uuser1 -pmypa55 --protocol tcp -h localhost
+   99  exit
+  100  sudo podman pull registry.access.redhat.com/rhscl/mariadb-102-rhel7
+  101  sudo podman images
+  102  sudo podman pull quay.io/redhattraining/httpd-parent:2.4
+  103  sudo podman images
+  104  sudo podman ps -a
+  105  sudo podman ps
+  106  sudo podman run -d --name official-httpd -p 8180:80 redhattraining/httpd-parent
+  107  sudo podman exec -it official-httpd /bin/bash
+  108  curl 127.0.0.1:8180/do180.html
+  109  sudo podman diff official-httpd
+  110  sudo podman stop official-httpd
+  111  sudo podman commit -a 'Faisal' official-httpd do180-custom-httpd
+  112  sudo podman images
+  113  source /usr/local/etc/ocp4.config
+  114  sudo podman tag do180-custom-httpd quay.io/${RHT_OCP4_QUAY_USER}/do180-custom-httpd:v1.0
+  115  sudo podman images
+  116  sudo podman push quay.io/${RHT_OCP4_QUAY_USER}/do180-custom-httpd:v1.0
+  117  sudo podman login quay.io
+  118  sudo podman push quay.io/${RHT_OCP4_QUAY_USER}/do180-custom-httpd:v1.0
+  119  sudo podman pull -q quay.io/${RHT_OCP4_QUAY_USER}/do180-custom-httpd:v1.0
+  120  sudo podman run -d --name test-httpd -p 8280:80 ${RHT_OCP4_QUAY_USER}/do180-custom-httpd:v1.0
+  121  curl http://localhost:8280/do180.html
+  122  lab image-operations finish
+  123  lab dockerfile-create start
+  124  vim /home/student/DO180/labs/dockerfile-create/Dockerfile
+  125  cd /home/student/DO180/labs/dockerfile-create/
+  126  sudo podman build --layers=false -t do180/apache .
+  127  sudo podman images
+  128  sudo podman run --name lab-apache -d -p 10080:80 do180/apache
+  129  sudo podman ps
+  130  curl 127.0.0.1:10080
+  131  lab dockerfile-create finish
+  132  cd ~
+  133  lab openshift-resources start
+  134  source /usr/local/etc/ocp4.config
+  135  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  136  oc new-project ${RHT_OCP4_DEV_USER}-mysql-openshift
+  137  oc new-app --as-deployment-config --docker-image=registry.access.redhat.com/rhscl/mysql-57-rhel7:latest --name=mysql-openshift -e MYSQL_USER=user1 -e MYSQL_PASSWORD=mypa55 -e MYSQL_DATABASE=testdb -e MYSQL_ROOT_PASSWORD=r00tpa55
+  138  oc status 
+  139  oc get pods
+  140  oc describe pod mysql-openshift-1-k7fgp 
+  141  oc get svc
+  142  oc describe service mysql-openshift
+  143  oc describe dc mysql-openshift
+  144  oc expose service mysql-openshift
+  145  oc get routes
+  146  oc port-forward mysql-openshift-1-k7fgp 3306:3306
+  147  oc delete project ${RHT_OCP4_DEV_USER}-mysql-openshift
+  148  lab openshift-resources finish
+  149  lab openshift-routes start
+  150  source /usr/local/etc/ocp4.config
+  151  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  152  oc new-project ${RHT_OCP4_DEV_USER}-route
+  153  oc new-app --as-deployment-config php:7.3~https://github.com/${RHT_OCP4_GITHUB_USER}/DO180-apps --context-dir php-helloworld --name php-helloworld
+  154  oc get pods -w
+  155  oc logs -f bc/php-helloworld
+  156  oc logs -f dc/php-helloworld
+  157  oc describe svc/php-helloworld
+  158  oc expose svc/php-helloworld
+  159  oc describe route
+  160  curl php-helloworld-${RHT_OCP4_DEV_USER}-route.${RHT_OCP4_WILDCARD_DOMAIN}
+  161  oc delete route/php-helloworld
+  162  oc expose svc/php-helloworld --name=${RHT_OCP4_DEV_USER}-xyz
+  163  curl ${RHT_OCP4_DEV_USER}-xyz-${RHT_OCP4_DEV_USER}-route.${RHT_OCP4_WILDCARD_DOMAIN}
+  164  lab openshift-routes finish
+  165  oc get pods
+  166  sudo oc get pods
+  167  lab openshift-s2i start
+  168  cd ~/DO180-apps
+  169  git checkout master
+  170  git checkout -b s2i
+  171  git push -u origin s2i
+  172  vim /home/student/DO180-apps/php-helloworld/index.php 
+  173  source /usr/local/etc/ocp4.config
+  174  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  175  oc new-project ${RHT_OCP4_DEV_USER}-s2i
+  176  oc new-app --as-deployment-config php:7.3 --name=php-helloworld https://github.com/${RHT_OCP4_GITHUB_USER}/DO180-apps#s2i --context-dir php-helloworld
+  177  oc get pods
+  178  oc logs --all-containers -f php-helloworld-1-build
+  179  oc describe dc/php-helloworld
+  180  oc expose service php-helloworld --name ${RHT_OCP4_DEV_USER}-helloworld
+  181  oc get route -o jsonpath='{..spec.host}{"\n"}'
+  182  curl -s ${RHT_OCP4_DEV_USER}-helloworld-${RHT_OCP4_DEV_USER}-s2i.${RHT_OCP4_WILDCARD_DOMAIN}
+  183  cd ~/DO180-apps/php-helloworld
+  184  vim index.php 
+  185  git add .
+  186  git commit -m 'Changed index page contents.'
+  187  git push origin s2i
+  188  oc start-build php-helloworld
+  189  oc logs php-helloworld-2-build -f
+  190  oc get pods
+  191  curl -s ${RHT_OCP4_DEV_USER}-helloworld-${RHT_OCP4_DEV_USER}-s2i.${RHT_OCP4_WILDCARD_DOMAIN}
+  192  lab openshift-s2i finish
+  193  oc get templates -n openshift
+  194  oc get templates -n openshift mysql-persistent 
+  195  oc get templates -n openshift mysql-persistent -o yaml
+  196  lab multicontainer-openshift start
+  197  cd ~/DO180/labs/multicontainer-openshift/images/mysql
+  198  sudo podman build -t do180-mysql-57-rhel7 .
+  199  source /usr/local/etc/ocp4.config
+  200  sudo podman login quay.io -u ${RHT_OCP4_QUAY_USER}
+  201  sudo podman tag do180-mysql-57-rhel7 quay.io/${RHT_OCP4_QUAY_USER}/do180-mysql-57-rhel7
+  202  sudo podman push quay.io/${RHT_OCP4_QUAY_USER}/do180-mysql-57-rhel7
+  203  cd ~/DO180/labs/multicontainer-openshift
+  204  cd images/nodejs
+  205  sudo podman build --layers=false -t do180-nodejs .
+  206  cd ~/DO180/labs/multicontainer-openshift
+  207  cd deploy/nodejs
+  208  ./build.sh 
+  209  sudo podman tag do180/todonodejs quay.io/${RHT_OCP4_QUAY_USER}/do180-todonodejs
+  210  sudo podman push quay.io/${RHT_OCP4_QUAY_USER}/do180-todonodejs
+  211  oc login -u ${RHT_OCP4_DEV_USER} -p ${RHT_OCP4_DEV_PASSWORD} ${RHT_OCP4_MASTER_API}
+  212  oc new-project ${RHT_OCP4_DEV_USER}-template
+  213  cd /home/student/DO180/labs/multicontainer-openshift
+  214  oc process -f todo-template.json -p RHT_OCP4_QUAY_USER=${RHT_OCP4_QUAY_USER} | oc create -f -
+  215  oc get pods -w
+  216  oc expose service todoapi
+  217  oc status | grep -o "http:.*com"
+  218  curl -w "\n" $(oc status | grep -o "http:.*com")/todo/api/items/1
+  219  oc status | grep -o "http:.*com"
+  220  curl -w "\n" $(oc status | grep -o "http:.*com")/todo/api/items/1
+  221  oc get pods -w
+  222  oc expose service todoapi
+  223  oc status | grep -o "http:.*com"
+  224  curl -w "\n" $(oc status | grep -o "http:.*com")/todo/api/items/1
+  225  oc status | grep -o "http:.*com"
+  226  curl -w "\n" $(oc status | grep -o "http:.*com")/todo/api/items/1
+  227  oc status | grep -o "http:.*com"
+  228  curl -w "\n" $(oc status | grep -o "http:.*com")/todo/api/items/1
+  229  oc status | grep -o "http:.*com"
+  230  oc expose service todoapi
+  231  oc get pods -w
+  232  oc process -f todo-template.json -p RHT_OCP4_QUAY_USER=${RHT_OCP4_QUAY_USER} | oc create -f -
+  233  oc get pods -w
+  234  history | grep finish
+  235  history | grep start
+  236  oc get pods -w
+  237  lab multicontainer-openshift finish
+  238  cd ~
+  239  lab execute-troubleshoot start
+  240  source /usr/local/etc/ocp4.config
+  241  oc login -u kubeadmin -p ${RHT_OCP4_KUBEADM_PASSWD} https://api.ocp4.example.com:6443
+  242  oc projects
+  243  oc get nodes
+  244  oc adm top node
+  245  oc describe node master01
+  246  oc get pod -n openshift-image-registry
+  247  oc logs --tail 3 -n openshift-image-registry cluster-image-registry-operator-5f47f6fcf7-94k7s
+  248  oc logs --tail 3 -n image-registry-64b69c4bf9-2dmbr cluster-image-registry-operator-5f47f6fcf7-94k7s
+  249  oc logs --tail 3 -n openshift-image-registry cluster-image-registry-operator-5f47f6fcf7-94k7s
+  250  oc logs --tail 3 -n openshift-image-registry -c cluster-image-registry-operator cluster-image-registry-operator-5f47f6fcf7-94k7s
+  251  oc logs --tail 1 -n openshift-image-registry image-registry-64b69c4bf9-2dmbr
+  252  oc adm node-logs --tail 1 -u kubelet master01
+  253  oc debug node/master01
+  254  oc project execute-troubleshoot 
+  255  oc get pod
+  256  oc status
+  257  oc get events
+  258  skopeo inspect docker://registry.access.redhat.com/rhscl/postgresq-96-rhel7:1
+  259  skopeo inspect docker://registry.access.redhat.com/rhscl/postgresql-96-rhel7:1
+  260  oc edit deployment/psql
+  261  oc status 
+  262  oc get pods
+  263  lab execute-troubleshoot finish
+  264  lab install-storage start
+  265  source /usr/local/etc/ocp4.config
+  266  vim /usr/local/etc/ocp4.config
+  267  oc login -u kubeadmin -p ${RHT_OCP4_KUBEADM_PASSWD} https://api.ocp4.example.com:6443
+  268  oc new-project install-storage
+  269  oc get storageclass
+  270  oc new-app --name postgresql-persistent --docker-image registry.redhat.io/rhel8/postgresql-12:1-43 -e POSTGRESQL_USER=redhat -e POSTGRESQL_PASSWORD=redhat123 -e POSTGRESQL_DATABASE=persistentdb
+  271  oc set volumes deployment/postgresql-persistent --add --name postgresql-storage --type pvc --claim-class nfs-storage --claim-mode rwo --claim-size 10Gi --mount-path /var/lib/pgsql --claim-name postgresql-storage
+  272  oc get pvc
+  273  oc get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name
+  274  cd ~/DO280/labs/install-storage
+  275  ./init_data.sh 
+  276  ./check_data.sh 
+  277  oc delete all -l app=postgresql-persistent
+  278  oc new-app --name postgresql-persistent2 --docker-image registry.redhat.io/rhel8/postgresql-12:1-43 -e POSTGRESQL_USER=redhat -e POSTGRESQL_PASSWORD=redhat123 -e POSTGRESQL_DATABASE=persistentdb
+  279  ./check_data.sh 
+  280  oc set volumes deployment/postgresql-persistent2 --add --name postgresql-storage --type pvc --claim-name postgresql-storage --mount-path /var/lib/pgsql
+  281  ./check_data.sh 
+  282  oc delete all -l app=postgresql-persistent2
+  283  oc delete pvc/postgresql-storage
+  284  cd
+  285  lab install-storage finish
+  286  history > history.day3
